@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FetchResult } from 'react-native';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 import axios from 'axios';
 
@@ -7,20 +7,25 @@ export default class Component1 extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { text: '' };
+    this.state = { text: '',
+                   toDo: '' };
   }
 
   onHandleSubmit = () => {
     console.log("Works")
 
-    axios.get("/api/todos").then(response => {
-      console.log(response)
+    axios.get("http://192.168.1.233:4000/api/movies").then(response => {
+      console.log("Response: " + response.data)
+      this.setState({toDo: response})
+      console.log(this.state.toDo)
+    }).catch(err => {
+      console.log("Error: " + err);
     })
 
-    // fetch("/api/todos", {
-    //   method: 'GET'
-    // }).then(response => {
-    //   console.log(response.json())
+    // fetch("http://www.omdbapi.com/?apikey=135f4b95&t=fox+and+the+hound").then(response => {
+    //   console.log(response)
+    // }).catch(err => {
+    //   console.log(err);
     // })
   }
 
@@ -52,7 +57,7 @@ export default class Component1 extends React.Component {
           onChangeText={(text) => this.setState({ text })}
         />
 
-        <TouchableOpacity style={styles.textInput} onPress={() => this.onHandleSubmit()}>
+        <TouchableOpacity style={styles.textInput} onPress={this.onHandleSubmit}>
           <View style={styles.textInput}>
             <Text style={styles.submitButton}>Submit</Text>
           </View>
