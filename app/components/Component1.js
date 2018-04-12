@@ -15,18 +15,12 @@ export default class Component1 extends React.Component {
     console.log("Works")
 
     axios.get("http://192.168.1.233:4000/api/movies").then(response => {
-      console.log("Response: " + response.data)
-      this.setState({toDo: response})
+      let newData = JSON.parse(response.data);
+      this.setState({toDo: newData})
       console.log(this.state.toDo)
     }).catch(err => {
       console.log("Error: " + err);
     })
-
-    // fetch("http://www.omdbapi.com/?apikey=135f4b95&t=fox+and+the+hound").then(response => {
-    //   console.log(response)
-    // }).catch(err => {
-    //   console.log(err);
-    // })
   }
 
 
@@ -34,34 +28,35 @@ export default class Component1 extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-      
-        {/* <View style={styles.textInput}><Text style={styles.theText}>Test1</Text></View>
-        <View style={styles.textInput}><Text style={styles.theText}>Test2</Text></View>
-        <View style={styles.textInput}><Text style={styles.theText}>Test3</Text></View> */}
-        {/* <Card style={styles.textInput}>
-            <CardContent text="To-Do List!" />
-            <CardAction 
-              separator={true} 
-              inColumn={false}>
-              <CardButton
-                onPress={() => this.onHandleSubmit()}
-                title="Submit"
-                color="#FEB557"
-              />
-            </CardAction>
-          </Card> */}
 
-        <TextInput
-          style={styles.theText}
-          placeholder="Add to your To-Do List"
-          onChangeText={(text) => this.setState({ text })}
-        />
+        <View style={styles.divContainer}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Type in a movie..."
+            onChangeText={(text) => this.setState({ text })}
+          />
+          <TouchableOpacity onPress={this.onHandleSubmit}>
+            <View>
+              <Text>Submit</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity style={styles.textInput} onPress={this.onHandleSubmit}>
-          <View style={styles.textInput}>
-            <Text style={styles.submitButton}>Submit</Text>
-          </View>
-        </TouchableOpacity>
+        {(!this.state.toDo) ?
+          <View style={styles.mainCard}>
+          </View> :
+          <Card>
+            <CardImage
+              source={{ uri: this.state.toDo.Poster }}
+              title={this.state.toDo.Title}
+            />
+            <CardContent text={`Year Released: ${this.state.toDo.Year}`} />
+            <CardContent text={`Rated: ${this.state.toDo.Rated}`} />
+            <CardContent text={`Plot: ${this.state.toDo.Plot}`} />
+          </Card>}
+
+
+
       </View>
     );
   }
@@ -73,26 +68,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.7)',
     alignSelf: 'stretch'
   },
-  theText: {
-    height: 44,
-    color: "#fff",
-    marginTop: 25
+  divContainer: {
+    flex: 1,
+    height: 55,
+    margin: 25,
   },
   textInput: {
-    flex: 1
+    
   },
-  newInput: {
-    paddingTop: 25,
-    height: 66
-  }, 
-  submitButton: {
-    color: "#fff",
-    backgroundColor: '#7a42f4',
-    padding: 10,
-    margin: 15,
-    height: 40,
+  mainCard: {
+    flex: 5
   },
-  submitButtonText: {
-    color: 'white'
-  }
 });
