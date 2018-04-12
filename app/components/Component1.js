@@ -29,21 +29,28 @@ export default class Component1 extends React.Component {
     return (
       <View style={styles.container}>
 
-        <View style={styles.divContainer}>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Type in a movie..."
-            onChangeText={(text) => this.setState({ text })}
-          />
-          <TouchableOpacity onPress={this.onHandleSubmit}>
-            <View>
-              <Text>Submit</Text>
-            </View>
-          </TouchableOpacity>
+        <View style={styles.title}>
+          <Text style={styles.titleText}>Movie Search</Text>
         </View>
 
+        <View style={styles.textInput}>
+          <TextInput
+            underlineColorAndroid="transparent"
+            placeholder="Type in a movie..."
+            placeholderTextColor="rgba(0,0,0,0.8)"
+            onChangeText={(text) => this.setState({ text })}
+          />
+        </View>
+        
+        <TouchableOpacity style={styles.button} onPress={this.onHandleSubmit}>
+          <View>
+            <Text style={styles.buttonText}>Submit</Text>
+          </View>
+        </TouchableOpacity>
+        
+
         {(!this.state.toDo) ?
-          <View style={styles.mainCard}>
+          <View>
           </View> :
           <Card>
             <CardImage
@@ -65,18 +72,31 @@ export default class Component1 extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    alignSelf: 'stretch'
+    backgroundColor: '#1e90ff'
   },
-  divContainer: {
-    flex: 1,
-    height: 55,
-    margin: 25,
+  title: {
+    marginTop: 50
+  },
+  titleText: {
+    textAlign: 'center',
+    fontSize: 32,
+    fontWeight: "bold"
   },
   textInput: {
-    
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    margin: 20,
+    marginTop: 50,
+    padding: 10
   },
-  mainCard: {
-    flex: 5
+  button: {
+    backgroundColor: "#000080",
+    padding: 10,
+    margin: 20
   },
+  buttonText: {
+    color: "#fff",
+    textAlign: "center",
+    fontWeight: "700"
+  }
+
 });
